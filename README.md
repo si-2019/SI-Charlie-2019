@@ -1,7 +1,7 @@
 # SI-Charlie-2019
 # Tim Charlie
 
-** Tema: Ispiti **
+**Tema: Ispiti**
 
 ## Članovi tima:
 - Nejra Imširović (vođa tima)
