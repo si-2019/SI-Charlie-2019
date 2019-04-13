@@ -10,6 +10,7 @@ app.get('/api/predmeti', (req, res) => {
         {naziv: 'Logički dizajn', br_studenata: 165},
         {naziv: 'Računarske arhitekture', br_studenata: 170}
     ];
+    res.json(predmeti);
 });
 //
 
