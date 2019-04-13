@@ -5,7 +5,11 @@ var app = express();
 
 //get zahtjev za predmete
 app.get('/api/predmeti', (req, res) => {
-    
+    const predmeti = [
+        {naziv: 'Softverski inženjering', br_studenata: 150},
+        {naziv: 'Logički dizajn', br_studenata: 165},
+        {naziv: 'Računarske arhitekture', br_studenata: 170}
+    ];
 });
 //
 
