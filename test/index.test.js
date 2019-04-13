@@ -12,6 +12,7 @@ describe('pokreni server', () => {
     .get('/api/predmeti')
     .end((err, res) => {
         chai.expect(res).to.have.status(200);
+        chai.expect(res.body).to.have.lengthOf(3);
         done();
     })
   });
