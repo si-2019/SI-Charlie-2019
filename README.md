@@ -11,6 +11,7 @@
 - Naida Raščić
 - Berina Omerović
 - Nežla Biševac
+- Nedim Memišević
 
 ## Opis modula
 Modul omogućava studentima prijavu i pregled ispita. Prijava ispita vrši se na način da student prvenstveno odabire jedan od predmeta, koji u tom trenutku imaju otvorene prijave. Klikom na predmet studentu se otvara lista termina za taj ispit, te svih potrebnih informacija. Za svaki ispit je naveden termin održavanja ispita i sala u kojoj se ispit održava, vrijeme trajanja ispita, broj slobodnih mjesta ukoliko je kapacitet ograničen, rok za prijavu i odjavu ispita, te opcionalno napomena profesora koja može sadržavati potrebni pribor za ispit, gradivne jedinice koje ispit sadržava i sl. Osim toga, student može pregledati listu ispita koje je prijavio, te mu se omogućava i odjava ispita. 
