@@ -17,4 +17,15 @@ describe("pokreni server", () => {
         done();
       });
   });
+
+  it("dobavlja broj studenata na predmetu", done => {
+    chai
+      .request(app)
+      .get("/dobavistudente/brojStudenata/Logički dizajn")
+      .end((err, res) => {
+        chai.expect(res).to.have.status(200);
+        chai.expect(res.body).to.have.lengthOf(165);
+        done();
+      });
+  });
 });
