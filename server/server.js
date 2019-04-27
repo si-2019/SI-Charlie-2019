@@ -33,6 +33,8 @@ app.get('/dobavistudente/brojStudenata/:naziv', (req, res) => {
     predmeti.forEach(predmet => {
         if(req.params.naziv==predmet.naziv) br=predmet.br_studenata;
     });
+    res.status(200);
+    res.json(br);
 });
 
 // let ispiti = [{ id: 5, ispit: "LD" }];
