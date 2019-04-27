@@ -37,6 +37,11 @@ app.get('/dobavistudente/brojStudenata/:naziv', (req, res) => {
     res.json(br);
 });
 
+app.post('/ispit', (req, res) => {
+  let v=req.body.ok;
+  
+});
+
 // let ispiti = [{ id: 5, ispit: "LD" }];
 
 // app.get("/ispiti", (req, res) => {
