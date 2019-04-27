@@ -22,6 +22,11 @@ app.get("/api/predmeti", (req, res) => {
   res.json(predmeti);
 });
 
+//get zahtjev za broj predmeta
+app.get('/dobavistudente/brojStudenata/:naziv', (req, res) => {
+  
+});
+
 // let ispiti = [{ id: 5, ispit: "LD" }];
 
 // app.get("/ispiti", (req, res) => {
