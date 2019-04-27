@@ -29,6 +29,10 @@ app.get('/dobavistudente/brojStudenata/:naziv', (req, res) => {
     {naziv: 'Logički dizajn', br_studenata: 165},
     {naziv: 'Računarske arhitekture', br_studenata: 170}
   ];
+  var br=0;
+    predmeti.forEach(predmet => {
+        if(req.params.naziv==predmet.naziv) br=predmet.br_studenata;
+    });
 });
 
 // let ispiti = [{ id: 5, ispit: "LD" }];
