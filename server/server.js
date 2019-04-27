@@ -24,7 +24,11 @@ app.get("/api/predmeti", (req, res) => {
 
 //get zahtjev za broj predmeta
 app.get('/dobavistudente/brojStudenata/:naziv', (req, res) => {
-  
+  const predmeti = [
+    {naziv: 'Softverski inženjering', br_studenata: 150},
+    {naziv: 'Logički dizajn', br_studenata: 165},
+    {naziv: 'Računarske arhitekture', br_studenata: 170}
+  ];
 });
 
 // let ispiti = [{ id: 5, ispit: "LD" }];
