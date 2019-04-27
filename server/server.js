@@ -22,6 +22,21 @@ app.get("/api/predmeti", (req, res) => {
   res.json(predmeti);
 });
 
+//get zahtjev za broj predmeta
+app.get('/dobavistudente/brojStudenata/:naziv', (req, res) => {
+  const predmeti = [
+    {naziv: 'Softverski inženjering', br_studenata: 150},
+    {naziv: 'Logički dizajn', br_studenata: 165},
+    {naziv: 'Računarske arhitekture', br_studenata: 170}
+  ];
+  var br=0;
+    predmeti.forEach(predmet => {
+        if(req.params.naziv==predmet.naziv) br=predmet.br_studenata;
+    });
+    res.status(200);
+    res.json(br);
+});
+
 // let ispiti = [{ id: 5, ispit: "LD" }];
 
 // app.get("/ispiti", (req, res) => {
