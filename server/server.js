@@ -39,6 +39,7 @@ app.get('/dobavistudente/brojStudenata/:naziv', (req, res) => {
 
 app.post('/ispit', (req, res) => {
   let v=req.body.ok;
+  if(v) res.send("Uspjesno ste kreirali ispit");
   
 });
 
