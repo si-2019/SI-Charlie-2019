@@ -4,12 +4,19 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 31903;
 app.use(bodyParser.json());
-app.use( 
+app.use(
   bodyParser.urlencoded({
     extended: true
   })
 );
 //
+
+app.use("/*", (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 
 //get zahtjev za predmete
 app.get("/api/predmeti", (req, res) => {
@@ -23,18 +30,18 @@ app.get("/api/predmeti", (req, res) => {
 });
 
 //get zahtjev za broj predmeta
-app.get('/dobavistudente/brojStudenata/:naziv', (req, res) => {
+app.get("/dobavistudente/brojStudenata/:naziv", (req, res) => {
   const predmeti = [
-    {naziv: 'Softverski inženjering', br_studenata: 150},
-    {naziv: 'Logički dizajn', br_studenata: 165},
-    {naziv: 'Računarske arhitekture', br_studenata: 170}
+    { naziv: "Softverski inženjering", br_studenata: 150 },
+    { naziv: "Logički dizajn", br_studenata: 165 },
+    { naziv: "Računarske arhitekture", br_studenata: 170 }
   ];
-  var br=0;
-    predmeti.forEach(predmet => {
-        if(req.params.naziv==predmet.naziv) br=predmet.br_studenata;
-    });
-    res.status(200);
-    res.json(br);
+  var br = 0;
+  predmeti.forEach(predmet => {
+    if (req.params.naziv == predmet.naziv) br = predmet.br_studenata;
+  });
+  res.status(200);
+  res.json(br);
 });
 
 // let ispiti = [{ id: 5, ispit: "LD" }];
