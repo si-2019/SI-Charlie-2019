@@ -23,7 +23,7 @@ db.sequelize = sequelize;
 //import modela
 db.Ispit = sequelize.import("../models/Ispit.js");
 db.Rezultati = sequelize.import("../models/ispiti_rezultati.js");
-
+db.Predmet = sequelize.import("../models/Predmet.js");
 
 module.exports=db;
 

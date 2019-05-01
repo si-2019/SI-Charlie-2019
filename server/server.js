@@ -76,6 +76,18 @@ app.post("/addIspit", (req, res) => {
 
 })
 
+//test baze -- OBAVEZNO NAVESTI ATTRIBUTES KOJI VAM TREBAJU JER SEQUELIZE MALKO ZEZA !!
+/*app.get("/api/test", (req, res) => {
+  db.Predmet.findAll({attributes: ['naziv']}).then(function(rez){
+    var niz=[];
+    for (var i=0; i<rez.length; i++) {
+        console.log(rez[i].naziv)
+    }
+    res.send(rez);   
+  });
+});
+*/
+
 
 // let ispiti = [{ id: 5, ispit: "LD" }];
 
