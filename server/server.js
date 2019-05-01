@@ -9,6 +9,9 @@ app.use(
     extended: true
   })
 );
+const Sequelize = require('sequelize');
+const db = require('./db.js')
+db.sequelize.sync();
 //
 
 app.use("/*", (req, res, next) => {
@@ -43,6 +46,36 @@ app.get("/dobavistudente/brojStudenata/:naziv", (req, res) => {
   res.status(200);
   res.json(br);
 });
+
+app.post("/addIspit", (req, res) => {
+  var tijelo = req.body;
+  var idProfesora = tijelo['idProfesora'];
+  var idPredmeta = tijelo['idPredmeta'];
+  var brojStudenata = tijelo['brojStudenata'];
+  var tipIspita = tijelo['tipIspita'];
+  var rokPrijave = tijelo['rokPrijave'];
+  var sala = tijelo['sala'];
+  var termin = tijelo['termin'];
+  var vrijemeTrajanja = tijelo['vrijemeTrajanja'];
+  var kapacitet = tijelo['kapacitet'];
+  var napomena = tijelo['napomena'];
+  db.Ispit.insertOrUpdate({
+    idProfesora:idProfesora,
+    idPredmeta:idPredmeta,
+    brojStudenata:brojStudenata,
+    tipIspita:tipIspita,
+    rokPrijave:rokPrijave,
+    sala:sala,
+    termin:termin,
+    vrijemeTrajanja:vrijemeTrajanja,
+    kapacitet:kapacitet,
+    napomena:napomena
+  }).then(function(zapis){
+    if(zapis) res.send("Uspjesno unesen ispit!")
+  })
+
+})
+
 
 // let ispiti = [{ id: 5, ispit: "LD" }];
 
