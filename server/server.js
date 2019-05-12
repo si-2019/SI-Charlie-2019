@@ -97,6 +97,11 @@ app.patch("/ispit/:ispitID", async (req, res) => {
   
   try {
     let ispiti = await db.Ispit.find({ where: { idIspit: ispitID } });
+    if (ispiti == null)
+      return res
+        .status(404)
+        .send({ error: "Student sa tim ID-om ne postoji!" });
+
     
   } catch (error) {
     res.status(400).send({ error: error.message });
