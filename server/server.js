@@ -102,7 +102,20 @@ app.patch("/ispit/:ispitID", async (req, res) => {
         .status(404)
         .send({ error: "Student sa tim ID-om ne postoji!" });
 
-    
+      ispiti = {
+        ...ispiti,
+        brojStudenata,
+        tipIspita,
+        rokPrijave,
+        sala,
+        termin,
+        vrijemeTrajanja,
+        kapacitet,
+        napomena
+      };
+  
+      await db.Ispit.update(ispiti, { where: { idIspit: ispitID } });
+      
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
