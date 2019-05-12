@@ -94,8 +94,13 @@ app.patch("/ispit/:ispitID", async (req, res) => {
     kapacitet,
     napomena
   } = req.body;
-
   
+  try {
+    let ispiti = await db.Ispit.find({ where: { idIspit: ispitID } });
+    
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
 });
 
 //test baze -- OBAVEZNO NAVESTI ATTRIBUTES KOJI VAM TREBAJU JER SEQUELIZE MALKO ZEZA !!
