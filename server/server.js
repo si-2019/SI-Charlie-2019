@@ -3,6 +3,12 @@ const bodyParser = require("body-parser");
 
 const app = express();
 const port = process.env.PORT || 31903;
+
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load('./server/swagger.yaml');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
