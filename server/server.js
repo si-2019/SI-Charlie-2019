@@ -115,7 +115,7 @@ app.patch("/ispit/:ispitID", async (req, res) => {
       };
   
       await db.Ispit.update(ispiti, { where: { idIspit: ispitID } });
-      
+      res.send("Uspjesan update!");
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
