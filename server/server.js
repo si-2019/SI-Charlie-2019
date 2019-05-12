@@ -82,6 +82,10 @@ app.post("/addIspit", (req, res) => {
 
 })
 
+app.patch("/ispit/:ispitID", async (req, res) => {
+  
+});
+
 //test baze -- OBAVEZNO NAVESTI ATTRIBUTES KOJI VAM TREBAJU JER SEQUELIZE MALKO ZEZA !!
 /*app.get("/api/test", (req, res) => {
   db.Predmet.findAll({attributes: ['naziv']}).then(function(rez){
