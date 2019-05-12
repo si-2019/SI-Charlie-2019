@@ -83,6 +83,7 @@ app.post("/addIspit", (req, res) => {
 })
 
 app.patch("/ispit/:ispitID", async (req, res) => {
+  const { ispitID } = req.params;
   
 });
 
