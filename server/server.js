@@ -82,6 +82,45 @@ app.post("/addIspit", (req, res) => {
 
 })
 
+app.patch("/ispit/:ispitID", async (req, res) => {
+  const { ispitID } = req.params;
+  const {
+    brojStudenata,
+    tipIspita,
+    rokPrijave,
+    sala,
+    termin,
+    vrijemeTrajanja,
+    kapacitet,
+    napomena
+  } = req.body;
+  
+  try {
+    let ispiti = await db.Ispit.find({ where: { idIspit: ispitID } });
+    if (ispiti == null)
+      return res
+        .status(404)
+        .send({ error: "Student sa tim ID-om ne postoji!" });
+
+      ispiti = {
+        ...ispiti,
+        brojStudenata,
+        tipIspita,
+        rokPrijave,
+        sala,
+        termin,
+        vrijemeTrajanja,
+        kapacitet,
+        napomena
+      };
+  
+      await db.Ispit.update(ispiti, { where: { idIspit: ispitID } });
+      res.send({success:"Uspjesan update!"});
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
 //test baze -- OBAVEZNO NAVESTI ATTRIBUTES KOJI VAM TREBAJU JER SEQUELIZE MALKO ZEZA !!
 /*app.get("/api/test", (req, res) => {
   db.Predmet.findAll({attributes: ['naziv']}).then(function(rez){
