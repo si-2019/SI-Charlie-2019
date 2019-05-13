@@ -40,7 +40,7 @@ describe("pokreni server", () => {
       })
   })
 
-  it("update ispita sa nepostojecim id/om", done => {
+  it("update ispita sa postojecim id/om", done => {
     const rokPrijave = Date.now()
     chai
       .request(app)
