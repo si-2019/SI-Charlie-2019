@@ -78,6 +78,13 @@ app.get("/ispit/:ispitID", async (req, res) => {
   }
 });
 
+app.post('/ispit', (req, res) => {
+  let v=req.body.ok;
+  if(v) res.send("Uspjesno ste kreirali ispit");
+  res.send("Doslo je do greske pri kreiranju ispita");
+  
+});
+
 app.post("/addIspit", (req, res) => {
   var tijelo = req.body;
   var idProfesora = tijelo['idProfesor'];
