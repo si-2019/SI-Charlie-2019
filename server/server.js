@@ -68,8 +68,6 @@ app.get("/ispit/:ispitID", async (req, res) => {
   }
 });
 
-
-
 app.post("/addIspit", (req, res) => {
   var tijelo = req.body;
   var idProfesora = tijelo['idProfesor'];
@@ -136,6 +134,15 @@ app.patch("/ispit/:ispitID", async (req, res) => {
   
       await db.Ispit.update(ispiti, { where: { idIspit: ispitID } });
       res.send({success:"Uspjesan update!"});
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
+app.get("/ispiti", async (req, res) => {
+  try {
+    const ispiti = await db.Ispit.findAll();
+    res.send(JSON.stringify(ispiti));
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
