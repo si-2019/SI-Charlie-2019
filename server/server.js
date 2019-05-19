@@ -192,6 +192,8 @@ app.get("/dobaviIspite", async (req, res) => {
   }
 });
 
+
+
 //dobavljanje ispita na koje se student moze prijaviti
 
 app.get("/otvoreniIspiti/:studentID", async (req, res) => {
@@ -203,7 +205,24 @@ app.get("/otvoreniIspiti/:studentID", async (req, res) => {
   }
 });
 
-//#region test baze -- OBAVEZNO NAVESTI ATTRIBUTES KOJI VAM TREBAJU JER SEQUELIZE MALKO ZEZA !!
+// dobavljanje prijavljenih ispita odredjenog studenta
+
+app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
+  const { studentID } = req.params;
+  const { studentID } = req.params;
+  try {
+    const rezultati = await db.IspitiRezultati.find({
+      korisnikIdKorisnik: studentID
+    });
+    if (!rezultati)
+      return res.send({ error: "Ne postoji student sa tim id-em!" });
+    res.send(JSON.stringify(rezultati));
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
+//#region primjer baze
 /*app.get("/api/test", (req, res) => {
   db.Predmet.findAll({attributes: ['naziv']}).then(function(rez){
     var niz=[];
