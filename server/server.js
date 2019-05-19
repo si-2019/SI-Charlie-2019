@@ -53,10 +53,25 @@ app.get("/dobavistudente/brojStudenata/:naziv", (req, res) => {
   res.json(br);
 });
 
+//get zahtjev za informacijama o ispitu
+app.get("/ispit/:ispitID", async (req, res) => {
+  const { ispitID } = req.params;
+  try {
+    const ispiti = await db.Ispit.findOne({ where: { idIspit: ispitID } });
+    if (ispiti == null)
+      return res
+        .status(404)
+        .send({ error: "Student sa tim ID-om ne postoji!" });
+    res.send(JSON.stringify(ispiti));
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
 app.post("/addIspit", (req, res) => {
   var tijelo = req.body;
-  var idProfesora = tijelo['idProfesora'];
-  var idPredmeta = tijelo['idPredmeta'];
+  var idProfesora = tijelo['idProfesor'];
+  var idPredmeta = tijelo['idPredmet'];
   var brojStudenata = tijelo['brojStudenata'];
   var tipIspita = tijelo['tipIspita'];
   var rokPrijave = tijelo['rokPrijave'];
@@ -66,8 +81,8 @@ app.post("/addIspit", (req, res) => {
   var kapacitet = tijelo['kapacitet'];
   var napomena = tijelo['napomena'];
   db.Ispit.insertOrUpdate({
-    idProfesora:idProfesora,
-    idPredmeta:idPredmeta,
+    idProfesor:idProfesora,
+    idPredmet:idPredmeta,
     brojStudenata:brojStudenata,
     tipIspita:tipIspita,
     rokPrijave:rokPrijave,
@@ -119,6 +134,15 @@ app.patch("/ispit/:ispitID", async (req, res) => {
   
       await db.Ispit.update(ispiti, { where: { idIspit: ispitID } });
       res.send({success:"Uspjesan update!"});
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
+app.get("/ispiti", async (req, res) => {
+  try {
+    const ispiti = await db.Ispit.findAll();
+    res.send(JSON.stringify(ispiti));
   } catch (error) {
     res.status(400).send({ error: error.message });
   }

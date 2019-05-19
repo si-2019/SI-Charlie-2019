@@ -5,7 +5,8 @@ module.exports = function(sequelize, DataTypes) {
     idIspit: {
       type: DataTypes.INTEGER(10),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     idProfesor: {
       type: DataTypes.INTEGER(10),
