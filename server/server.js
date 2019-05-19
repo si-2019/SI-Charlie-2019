@@ -27,6 +27,16 @@ app.use("/*", (req, res, next) => {
   next();
 });
 
+//get zahtjev za broj odabranog tipa ispita odabranog predmeta
+app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
+  db.Predmet.find({attributes: ['id', 'naziv'], where: {naziv: req.params.nazivPredmeta}}).then(function(rez){
+    db.Ispit.findAndCountAll({where: {idPredmet: rez.id, tipIspita: req.params.tipIspita}}).then(function(count){
+      res.status(200);
+      res.json(count);
+    })
+  });
+});
+
 //get zahtjev za predmete
 app.get("/api/predmeti", (req, res) => {
   const predmeti = [
