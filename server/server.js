@@ -92,7 +92,9 @@ app.post('/ispit', (req, res) => {
 app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
   const { studentID } = req.params;
   try {
-    const rezultati
+    const rezultati = await db.IspitiRezultati.find({
+      korisnikIdKorisnik: studentID
+    });
     if (!rezultati)
       return res.send({ error: "Ne postoji student sa tim id-em!" });
     res.send(JSON.stringify(rezultati));
