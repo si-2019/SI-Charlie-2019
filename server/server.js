@@ -68,10 +68,12 @@ app.get("/ispit/:ispitID", async (req, res) => {
   }
 });
 
+
+
 app.post("/addIspit", (req, res) => {
   var tijelo = req.body;
-  var idProfesora = tijelo['idProfesora'];
-  var idPredmeta = tijelo['idPredmeta'];
+  var idProfesora = tijelo['idProfesor'];
+  var idPredmeta = tijelo['idPredmet'];
   var brojStudenata = tijelo['brojStudenata'];
   var tipIspita = tijelo['tipIspita'];
   var rokPrijave = tijelo['rokPrijave'];
@@ -81,8 +83,8 @@ app.post("/addIspit", (req, res) => {
   var kapacitet = tijelo['kapacitet'];
   var napomena = tijelo['napomena'];
   db.Ispit.insertOrUpdate({
-    idProfesora:idProfesora,
-    idPredmeta:idPredmeta,
+    idProfesor:idProfesora,
+    idPredmet:idPredmeta,
     brojStudenata:brojStudenata,
     tipIspita:tipIspita,
     rokPrijave:rokPrijave,
