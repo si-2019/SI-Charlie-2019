@@ -78,6 +78,9 @@ app.post("/addIspit", (req, res) => {
     napomena:napomena
   }).then(function(zapis){
     if(zapis) res.send("Uspjesno unesen ispit!")
+  }).catch(() => {
+    res.status(409);
+    res.send("Ispit nije uspjesno spasen");
   })
 
 })
