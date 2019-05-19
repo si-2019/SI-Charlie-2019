@@ -27,7 +27,7 @@ app.use("/*", (req, res, next) => {
   next();
 });
 
-//get zahtjev za broj odabranog tipa ispita odabranog predmeta
+//#region get zahtjev za broj odabranog tipa ispita odabranog predmeta
 app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
   db.Predmet.find({attributes: ['id', 'naziv'], where: {naziv: req.params.nazivPredmeta}}).then(function(rez){
     db.Ispit.findAndCountAll({where: {idPredmet: rez.id, tipIspita: req.params.tipIspita}}).then(function(count){
@@ -36,8 +36,9 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
     })
   });
 });
+//#endregion
 
-//get zahtjev za predmete
+//#region get zahtjev za predmete
 app.get("/api/predmeti", (req, res) => {
   const predmeti = [
     { naziv: "Softverski inženjering", br_studenata: 150 },
@@ -47,8 +48,9 @@ app.get("/api/predmeti", (req, res) => {
   res.status(200);
   res.json(predmeti);
 });
+//#endregion
 
-//get zahtjev za broj predmeta
+//#region get zahtjev za broj predmeta
 app.get("/dobavistudente/brojStudenata/:naziv", (req, res) => {
   const predmeti = [
     { naziv: "Softverski inženjering", br_studenata: 150 },
@@ -62,8 +64,9 @@ app.get("/dobavistudente/brojStudenata/:naziv", (req, res) => {
   res.status(200);
   res.json(br);
 });
+//#endregion
 
-//get zahtjev za informacijama o ispitu
+//#region get zahtjev za informacijama o ispitu
 app.get("/ispit/:ispitID", async (req, res) => {
   const { ispitID } = req.params;
   try {
@@ -77,9 +80,11 @@ app.get("/ispit/:ispitID", async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
+//#endregion
 
-/* kreiranje ispita je vec napravljeno
-app.post('/ispit', (req, res) => {
+
+// kreiranje ispita je vec napravljeno
+/*app.post('/ispit', (req, res) => {
   let v=req.body.ok;
   if(v) res.send("Uspjesno ste kreirali ispit");
   res.send("Doslo je do greske pri kreiranju ispita");
@@ -87,7 +92,7 @@ app.post('/ispit', (req, res) => {
 });
 */
 
-// dobavljanje prijavljenih ispita odredjenog studenta
+//#region dobavljanje prijavljenih ispita odredjenog studenta
 
 app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
   const { studentID } = req.params;
@@ -102,8 +107,9 @@ app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
+//#endregion
 
-
+// #region dodavanje ispita u bazu
 app.post("/ispiti", (req, res) => {
   var tijelo = req.body;
   var idProfesora = tijelo['idProfesor'];
@@ -135,6 +141,8 @@ app.post("/ispiti", (req, res) => {
   })
 
 })
+//#endregion
+
 
 app.patch("/ispit/:ispitID", async (req, res) => {
   const { ispitID } = req.params;
@@ -175,7 +183,7 @@ app.patch("/ispit/:ispitID", async (req, res) => {
   }
 });
 
-app.get("/ispiti", async (req, res) => {
+app.get("/dobaviIspite", async (req, res) => {
   try {
     const ispiti = await db.Ispit.findAll();
     res.send(JSON.stringify(ispiti));
@@ -184,7 +192,18 @@ app.get("/ispiti", async (req, res) => {
   }
 });
 
-//test baze -- OBAVEZNO NAVESTI ATTRIBUTES KOJI VAM TREBAJU JER SEQUELIZE MALKO ZEZA !!
+//dobavljanje ispita na koje se student moze prijaviti
+
+app.get("/otvoreniIspiti/:studentID", async (req, res) => {
+  try {
+    const ispiti = await db.Ispit.findAll();
+    res.send(JSON.stringify(ispiti));
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
+//#region test baze -- OBAVEZNO NAVESTI ATTRIBUTES KOJI VAM TREBAJU JER SEQUELIZE MALKO ZEZA !!
 /*app.get("/api/test", (req, res) => {
   db.Predmet.findAll({attributes: ['naziv']}).then(function(rez){
     var niz=[];
@@ -195,7 +214,7 @@ app.get("/ispiti", async (req, res) => {
   });
 });
 */
-
+//#endregion
 
 // let ispiti = [{ id: 5, ispit: "LD" }];
 
