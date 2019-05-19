@@ -108,13 +108,4 @@ module.exports = function(sequelize, DataTypes) {
   });
 };
 
-      allowNull: true
-    },
-    titula: {
-      type: DataTypes.STRING(50),
-      allowNull: true
-    }
-  }, {
-    tableName: 'Korisnik'
-  });
-};
+     
