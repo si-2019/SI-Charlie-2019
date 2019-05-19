@@ -53,6 +53,21 @@ app.get("/dobavistudente/brojStudenata/:naziv", (req, res) => {
   res.json(br);
 });
 
+//get zahtjev za informacijama o ispitu
+app.get("/ispit/:ispitID", async (req, res) => {
+  const { ispitID } = req.params;
+  try {
+    const ispiti = await db.Ispit.findOne({ where: { idIspit: ispitID } });
+    if (ispiti == null)
+      return res
+        .status(404)
+        .send({ error: "Student sa tim ID-om ne postoji!" });
+    res.send(JSON.stringify(ispiti));
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
 app.post("/addIspit", (req, res) => {
   var tijelo = req.body;
   var idProfesora = tijelo['idProfesora'];
