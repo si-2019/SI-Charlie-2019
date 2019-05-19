@@ -169,6 +169,7 @@ app.get("/ispiti", async (req, res) => {
 
 app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
   const { studentID } = req.params;
+  const { studentID } = req.params;
   try {
     const rezultati = await db.IspitiRezultati.find({
       korisnikIdKorisnik: studentID
