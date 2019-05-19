@@ -78,14 +78,33 @@ app.get("/ispit/:ispitID", async (req, res) => {
   }
 });
 
+/* kreiranje ispita je vec napravljeno
 app.post('/ispit', (req, res) => {
   let v=req.body.ok;
   if(v) res.send("Uspjesno ste kreirali ispit");
   res.send("Doslo je do greske pri kreiranju ispita");
   
 });
+*/
 
-app.post("/addIspit", (req, res) => {
+// dobavljanje prijavljenih ispita odredjenog studenta
+
+app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
+  const { studentID } = req.params;
+  try {
+    const rezultati = await db.IspitiRezultati.find({
+      korisnikIdKorisnik: studentID
+    });
+    if (!rezultati)
+      return res.send({ error: "Ne postoji student sa tim id-em!" });
+    res.send(JSON.stringify(rezultati));
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
+
+app.post("/ispiti", (req, res) => {
   var tijelo = req.body;
   var idProfesora = tijelo['idProfesor'];
   var idPredmeta = tijelo['idPredmet'];
