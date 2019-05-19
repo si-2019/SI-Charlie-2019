@@ -1,0 +1,621 @@
+swagger: '2.0'
+info:
+  description: U ovom dokumentu su navedeni svi API-ji koje kreira modul Ispiti, kao i API-ji koji se koriste za Frontend modula 
+  version: 1.0.0
+  title: Dokumentacija API-ja modula Ispiti
+  
+
+# tags are used for organizing operations
+tags:
+- name: Dobavljanje ispita i studenata
+  description: Svi API-ji vezani za dobavljanje ispita i studenata
+- name: Add/Update/Delete ispita
+  description: Svi API-ji vezani za add/update/delete ispita
+- name: Prijava/Odjava studenta sa ispita
+  description: Svi API-ji vezani za prijavu/odjavu studenta sa ispita
+- name: Frontend API-ji
+  description: API-ji koje koristi Frontend modula Ispiti
+
+
+paths:
+  /ispiti:
+    get:
+      tags:
+      - Dobavljanje ispita i studenata
+      summary: Dobavlja listu svih ispita
+      operationId: listaIspita
+      description: |
+        Lista svih kreiranih ispita
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Dobavljena lista svih ispita
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit'
+    
+  /kreiraniIspiti/:profesorID:
+    get:
+      tags:
+      - Dobavljanje ispita i studenata
+      summary: Dobavlja listu svih ispita za određenog profesora ako im termin nije prošao
+      operationId: listaIspitaZaProfesora
+      description: |
+       Dobavlja listu svih ispita za određenog profesora ako im termin nije prošao
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: profesorID
+        description: id profesora za koga se dobavlja lista ispita
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Dobavljena lista ispita za određenog profesora ako im termin nije prošao
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit'
+        
+  /ispit/:ispitID:
+    get:
+      tags:
+      - Dobavljanje ispita i studenata
+      summary: Dobavlja jedan ispit
+      operationId: konkretanIspit
+      description: |
+        Dobavlja jedan konkretan ispit
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: ispitID
+        description: id ispita koji je potrebno dobaviti
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Traženi ispit je dobavljen
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit'
+       
+    patch:
+      tags:
+      - Add/Update/Delete ispita
+      summary: Update ispita
+      operationId: konkretanIspit2
+      description: |
+        Update-ovanje ispita, odnosno informacija o ispitu
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: ispitID
+        description: id ispita koji je potrebno update-ovati
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: body
+        description: Ispit koji se update-uje
+        required: true
+        schema:
+          $ref: '#/definitions/Ispit'
+      responses:
+        200:
+          description: Ispit je update-ovan
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit'
+    delete:
+      tags:
+      - Add/Update/Delete ispita
+      summary: Delete ispita
+      operationId: konkretanIspit3
+      description: |
+        Brisanje ispita sa određenim id-jem
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: ispitID
+        description: id ispita koji je potrebno obrisati
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Ispit je obrisan
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit'    
+          
+  /ispit:
+    post:
+      tags:
+      - Add/Update/Delete ispita
+      summary: Add ispita
+      operationId: kreirajIspit
+      description: Ispit se kreira
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Ispit koji se treba unijeti
+        required: true
+        schema:
+          $ref: '#/definitions/Ispit'
+      responses:
+        200:
+          description: Ispit je kreiran
+        
+          
+  /prijava/:ispitID/:studentID:
+    post:
+      tags:
+      - Prijava/Odjava studenta sa ispita
+      summary: Prijava studenta na ispit
+      operationId: prijaviStudenta
+      description: Student se prijavljuje na željeni ispit
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: ispitID
+        description: id ispita na koji se student prijavljuje
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: studentID
+        description: id studenta koji se prijavljuje na ispit
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: body
+        description: Prijava studenta na ispit
+        required: true
+        schema:
+          $ref: '#/definitions/ispiti_rezultati'
+      responses:
+        200:
+          description: Student se prijavio na ispit
+    delete:
+      tags:
+      - Prijava/Odjava studenta sa ispita
+      summary: Odjava studenta sa ispita
+      operationId: odjaviStudenta
+      description: Student se odjavljuje sa ispita
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: ispitID
+        description: id ispita sa kojeg se student odjavljuje
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: studentID
+        description: id studenta koji se odjavljuje
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: body
+        description: Odjava studenta sa ispita
+        required: true
+        schema:
+          $ref: '#/definitions/ispiti_rezultati'
+      responses:
+        200:
+          description: Student se odjavio sa ispita
+          
+  /prijavljeniStudenti/:ispitID:
+    get:
+      tags:
+      - Dobavljanje ispita i studenata
+      summary: Vraća sve studente koji su prijavljeni na ispit sa id-om ispitID
+      operationId: listaStudenata
+      description: |
+        Vraća sve studente koji su prijavljeni na ispit sa id-om ispitID
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: ispitID
+        description: id ispita za koji vraćamo listu studenata
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Dobavljeni svi studenti koji su prijavljeni na ispit sa id-om ispitID
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ispiti_rezultati'
+  /prijavljeniIspiti/:studentID:
+    get:
+      tags:
+      - Dobavljanje ispita i studenata
+      summary: Vraća sve ispite na kojima je prijavljen student sa id studentID
+      operationId: listaIspitaStudent
+      description: |
+        Vraća sve ispite na kojima je prijavljen student sa id studentID
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: studentID
+        description: id studenta za kojeg vraćamo listu ispita
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Dobavljeni svi ispiti na kojima je prijavljen student sa id-om studentID
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ispiti_rezultati'
+  /otvoreniIspiti/:studentID:
+    get:
+      tags:
+      - Dobavljanje ispita i studenata
+      summary: Dobavi listu ispita za određenog studenta na koje se može prijaviti, ako im termin nije prošao
+      operationId: otvorenePrijave
+      description: |
+        Dobavi listu ispita za određenog studenta na koje se može prijaviti, ako im termin nije prošao
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Ispiti su dobavljeni
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit'  
+  /kreirajIspit:
+    post:
+      tags:
+      - Frontend API-ji
+      summary: Kreiranje ispita na osnovu unešenih podataka
+      operationId: unesiIspit
+      description: Ispit se unosi na osnovu unešenih podataka
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Sadržava sve informaciije o ispitu koji se kreira
+        schema:
+          $ref: '#/definitions/Ispit'
+      responses:
+        200:
+          description: Ispit je kreiran
+          
+  /infoOIspitu/:ispitID:
+    get:
+      tags:
+      - Frontend API-ji
+      summary: Dobavlja jedan ispit
+      operationId: infoIspit
+      description: |
+        Dobavljaju se informacije o ispitu sa id-jem ispitID
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: ispitID
+        description: id ispita koji je potrebno dobaviti
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Traženi ispit je dobavljen
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit'
+  /prijavi/:ispitID/:studentID:
+    post:
+      tags:
+      - Frontend API-ji
+      summary: Prijava studenta na ispit
+      operationId: prijaviStudenta2
+      description: Student se prijavljuje na željeni ispit
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: ispitID
+        description: id ispita na koji se student prijavljuje
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: studentID
+        description: id studenta koji se prijavljuje na ispit
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: body
+        description: Prijava studenta na ispit
+        required: true
+        schema:
+          $ref: '#/definitions/ispiti_rezultati'
+      responses:
+        200:
+          description: Student se prijavio na ispit
+    delete:
+      tags:
+      - Frontend API-ji
+      summary: Odjava studenta sa ispita
+      operationId: odjaviStudenta2
+      description: Student se odjavljuje sa ispita
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: ispitID
+        description: id ispita sa kojeg se student odjavljuje
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: studentID
+        description: id studenta koji se odjavljuje
+        required: true
+        type: integer
+        format: int64
+      - in: body
+        name: body
+        description: Odjava studenta sa ispita
+        required: true
+        schema:
+          $ref: '#/definitions/ispiti_rezultati'
+      responses:
+        200:
+          description: Student se odjavio sa ispita
+  /sviIspiti:
+    get:
+      tags:
+      - Frontend API-ji
+      summary: Dobavlja sve ispite
+      operationId: sviIspiti
+      description: |
+        Dobavljaju se svi ispiti
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Ispiti su dobavljeni
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit'  
+  /kreiraniIspitii/:profesorID:
+    get:
+      tags:
+      - Frontend API-ji
+      summary: Dobavi listu ispita za određenog profesora, ako im termin nije prošao
+      operationId: ispitiProfesor
+      description: |
+        Dobavi listu ispita za određenog profesora, ako im termin nije prošao
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: profesorID
+        description: id profesora za kojeg je potrebno dobaviti ispite
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Ispiti su dobavljeni
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit'
+  /prijavljeniStudentii/:ispitID:
+    get:
+      tags:
+      - Frontend API-ji
+      summary: Dobavlja se lista studenata koji su prijavljeni na ispit sa id-jem ispitID
+      operationId: prijavljeniStud
+      description: |
+        Dobavlja se lista studenata koji su prijavljeni na ispit sa id-jem ispitID
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: ispitID
+        description: id ispita za koji je potrebno dobaviti listu studenata
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Studenti su dobavljeni za traženi ispit
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit'
+  /kreiraniIspit/:ispitID:
+    patch:
+        tags:
+        - Frontend API-ji
+        summary: Update ispita 
+        operationId: updateIspitaa2
+        description: |
+          Uređivanje informacija o ispitu sa id-jem ispitID
+        produces:
+        - application/json
+        parameters:
+        - in: query
+          name: ispitID
+          description: id ispita koji je potrebno update-ovati
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Ispit koji se update-uje
+          required: true
+          schema:
+            $ref: '#/definitions/Ispit'
+        responses:
+          200:
+            description: Ispit je update-ovan
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Ispit'
+    delete:
+      tags:
+        - Frontend API-ji
+      summary: Delete ispita
+      operationId: brisiIspiti5
+      description: |
+        Brisanje ispita sa id-jem ispitID
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: ispitID
+        description: id ispita koji je potrebno obrisati
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Ispit je obrisan
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit'  
+  /prijavljeniIspitii/:studentID:
+    get:
+      tags:
+      - Frontend API-ji
+      summary: Vrati sve ispite na kojima je prijavljen student sa id studentID
+      operationId: prijavljeniIspiti7
+      description: |
+       Vrati sve ispite na kojima je prijavljen student sa id studentID
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: studentID
+        description: id studenta za kojeg vraćamo listu ispita
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: Dobavljeni svi ispiti na kojima je prijavljen student sa id-om studentID
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ispiti_rezultati'
+  /otvoreniIspitii/:studentID:
+    get:
+      tags:
+      - Frontend API-ji
+      summary: Dobavi listu ispita za određenog studenta na koje se može prijaviti, ako im termin nije prošao
+      operationId: otvorenePrijave2
+      description: |
+        Dobavi listu ispita za određenog studenta na koje se može prijaviti, ako im termin nije prošao
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Ispiti su dobavljeni
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ispit' 
+definitions:
+  Ispit:
+    type: object
+    required:
+    - idIspit
+    - idProfesor
+    - idPredmet
+    properties:
+      idIspit:
+        type: integer
+        format: int64
+      idProfesor:
+        type: integer
+        format: int64
+      idPredmet:
+        type: integer
+        format: int64
+      brojStudenata:
+        type: integer
+        format: int64
+      tipIspita:
+        type: string
+      rokPrijave:
+        type: string
+      sala:
+        type: string
+      termin:
+        type: string
+      vrijemeTrajanja:
+        type: integer
+        format: int64
+      kapacitet:
+        type: integer
+        format: int64
+      napomena:
+        type: string
+  ispiti_rezultati:
+    required:
+    - idIspit
+    - idStudent
+    properties:
+      idIspit:
+        type: integer
+        format: int64
+      idStudent:
+        type: integer
+        format: int64
+      bodovi:
+        type: integer
+        format: int64
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+# basePath: /nimsirovic1/GET/1.0.0
+schemes:
+ - https
+# Added by API Auto Mocking Plugin
+basePath: /nimsirovic1/MikroservisiIspiti/1.0.0
