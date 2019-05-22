@@ -17,6 +17,7 @@ app.use(
 );
 const Sequelize = require('sequelize');
 const db = require('./db.js')
+const Op = Sequelize.Op;
 db.sequelize.sync();
 //
 
@@ -71,7 +72,7 @@ app.get("/ispit/:ispitID", async (req, res) => {
     if (ispiti == null)
       return res
         .status(404)
-        .send({ error: "Student sa tim ID-om ne postoji!" });
+        .send({ error: "Ispit sa tim ID-em ne postoji!" });
     res.send(JSON.stringify(ispiti));
   } catch (error) {
     res.status(400).send({ error: error.message });
@@ -103,8 +104,8 @@ app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
   }
 });
 
-
-app.post("/ispiti", (req, res) => {
+// spasavanje isptia u bazu
+app.post("/ispit", (req, res) => {
   var tijelo = req.body;
   var idProfesora = tijelo['idProfesor'];
   var idPredmeta = tijelo['idPredmet'];
@@ -184,18 +185,18 @@ app.get("/ispiti", async (req, res) => {
   }
 });
 
-// dobavljanje prijavljenih ispita odredjenog studenta
-
-app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
-  const { studentID } = req.params;
-  const { studentID } = req.params;
+// dobavljanje aktuelnih prijava
+app.get("/otvoreniIspiti/:studentID", async (req, res) => {
+  x = Date.now()
   try {
-    const rezultati = await db.IspitiRezultati.find({
-      korisnikIdKorisnik: studentID
+    const ispiti = await db.Ispit.findAll({
+      where: {
+        termin: {
+          [Op.gte]: x
+        }
+      }
     });
-    if (!rezultati)
-      return res.send({ error: "Ne postoji student sa tim id-em!" });
-    res.send(JSON.stringify(rezultati));
+    res.send(JSON.stringify(ispiti));
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
