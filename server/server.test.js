@@ -53,5 +53,15 @@ describe("pokreni server", () => {
       })
   })
 
-  
+  it("dobavljanje ispita za profesora sa nepostojecim id/om", done => {
+    const termin = Date.now()
+    chai
+      .request(app)
+      .patch("/kreiraniIspiti/2")
+      .send({termin})
+      .end((err, res) => {
+        chai.expect(res).to.have.status(404)
+        done()
+      })
+  })
 });
