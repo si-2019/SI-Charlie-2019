@@ -83,6 +83,8 @@ app.get("/ispit/:ispitID", async (req, res) => {
 //#endregion
 
 // vraća sve kreirane ispite za određenog profesora, ali koji još nisu prošli
+app.get("/kreiraniIspiti/:profesorID", async (req, res) => {
+});
 
 // kreiranje ispita je vec napravljeno
 /*app.post('/ispit', (req, res) => {
