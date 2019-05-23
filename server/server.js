@@ -82,6 +82,7 @@ app.get("/ispit/:ispitID", async (req, res) => {
 });
 //#endregion
 
+// vraća sve kreirane ispite za određenog profesora, ali koji još nisu prošli
 
 // kreiranje ispita je vec napravljeno
 /*app.post('/ispit', (req, res) => {
@@ -209,7 +210,7 @@ app.get("/otvoreniIspiti/:studentID", async (req, res) => {
 
 app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
   const { studentID } = req.params;
-  const { studentID } = req.params;
+//  const { studentID } = req.params;
   try {
     const rezultati = await db.IspitiRezultati.find({
       korisnikIdKorisnik: studentID
