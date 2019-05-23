@@ -99,6 +99,7 @@ app.get("/kreiraniIspiti/:profesorID", async (req, res) => {
       res.send(JSON.stringify(ispiti));
   }
   catch (error) {
+    res.status(400).send({ error: error.message });
   }
 });
 
