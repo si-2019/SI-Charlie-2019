@@ -92,6 +92,11 @@ app.get("/kreiraniIspiti/:profesorID", async (req, res) => {
        termin: {
           $gte: trenutni
         }}});
+        if (ispiti == null)
+        return res
+            .status(404)
+            .send({ error: "Profesor sa tim ID-om ne postoji!" });
+      res.send(JSON.stringify(ispiti));
   }
   catch (error) {
   }
