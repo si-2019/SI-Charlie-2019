@@ -86,6 +86,10 @@ app.get("/ispit/:ispitID", async (req, res) => {
 app.get("/kreiraniIspiti/:profesorID", async (req, res) => {
   const { profesorID } = req.params; 
   var trenutni = new Date();
+  try {
+  }
+  catch (error) {
+  }
 });
 
 // kreiranje ispita je vec napravljeno
