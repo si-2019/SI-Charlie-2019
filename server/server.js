@@ -84,6 +84,8 @@ app.get("/ispit/:ispitID", async (req, res) => {
 
 // vraća sve kreirane ispite za određenog profesora, ali koji još nisu prošli
 app.get("/kreiraniIspiti/:profesorID", async (req, res) => {
+  const { profesorID } = req.params; 
+  var trenutni = new Date();
 });
 
 // kreiranje ispita je vec napravljeno
