@@ -87,6 +87,11 @@ app.get("/kreiraniIspiti/:profesorID", async (req, res) => {
   const { profesorID } = req.params; 
   var trenutni = new Date();
   try {
+    const ispiti = await db.Ispit.findAll({where: 
+      {idProfesor: profesorID,
+       termin: {
+          $gte: trenutni
+        }}});
   }
   catch (error) {
   }
