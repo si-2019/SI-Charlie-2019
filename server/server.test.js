@@ -53,6 +53,41 @@ describe("pokreni server", () => {
       })
   })
 
+
+  it("dobavlja odredjeni ispit", done => {
+    chai
+      .request(app)
+      .get("/ispit/1")
+      .end((err, res) => {
+        chai.expect(res).to.have.status(200);
+        chai.expect(res.body).to.have.lengthOf(165);
+        done();
+      });
+  });
+
+  it("dobavlja aktuelne prijave", done => {
+    chai
+      .request(app)
+      .get("/otvoreniIspiti/1")
+      .end((err, res) => {
+        chai.expect(res).to.have.status(200);
+        chai.expect(res.body).to.have.lengthOf(165);
+        done();
+      });
+  });
+
+  it("dobavlja prijavljene ispite", done => {
+    chai
+      .request(app)
+      .get("/prijavljeniIspiti/1")
+      .end((err, res) => {
+        chai.expect(res).to.have.status(200);
+        chai.expect(res.body).to.have.lengthOf(165);
+        done();
+      });
+  });
+
+
   it("dobavljanje ispita za profesora sa nepostojecim id/om", done => {
     const termin = Date.now()
     chai
