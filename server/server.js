@@ -83,6 +83,26 @@ app.get("/ispit/:ispitID", async (req, res) => {
 });
 //#endregion
 
+// vraća sve kreirane ispite za određenog profesora, ali koji još nisu prošli
+app.get("/kreiraniIspiti/:profesorID", async (req, res) => {
+  const { profesorID } = req.params; 
+  var trenutni = new Date();
+  try {
+    const ispiti = await db.Ispit.findAll({where: 
+      {idProfesor: profesorID,
+       termin: {
+          $gte: trenutni
+        }}});
+        if (ispiti == null)
+        return res
+            .status(404)
+            .send({ error: "Profesor sa tim ID-om ne postoji!" });
+      res.send(JSON.stringify(ispiti));
+  }
+  catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
 
 // kreiranje ispita je vec napravljeno
 /*app.post('/ispit', (req, res) => {
@@ -206,9 +226,16 @@ app.get("/otvoreniIspiti/:studentID", async (req, res) => {
   }
 });
 
+
 // dobavljanje aktuelnih prijava
 app.get("/otvoreniIspiti/:studentID", async (req, res) => {
   x = Date.now()
+=======
+// dobavljanje prijavljenih ispita odredjenog studenta
+
+app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
+  const { studentID } = req.params;
+//  const { studentID } = req.params;
   try {
     const ispiti = await db.Ispit.findAll({
       where: {
