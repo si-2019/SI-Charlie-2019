@@ -228,14 +228,13 @@ app.get("/otvoreniIspiti/:studentID", async (req, res) => {
 
 
 // dobavljanje aktuelnih prijava
-app.get("/otvoreniIspiti/:studentID", async (req, res) => {
-  x = Date.now()
-=======
+//app.get("/otvoreniIspiti/:studentID", async (req, res) => {
+//  x = Date.now()
+
 // dobavljanje prijavljenih ispita odredjenog studenta
 
 app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
   const { studentID } = req.params;
-//  const { studentID } = req.params;
   try {
     const ispiti = await db.Ispit.findAll({
       where: {
