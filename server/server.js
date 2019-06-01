@@ -285,6 +285,22 @@ app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
 //   }
 // });
 
+
+app.get('/vrijemeDoIspita/:ispitID', async (req, res) => {
+  const { ispitID } = req.params
+  try {
+    const exam = await db.Ispit.findOne({where: {idIspit:ispitID}})
+    const timeLeft = Date.now() - exam.rokPrijave
+    res.send({
+      hours: (new Date(timeLeft)).getHours(),
+      minutes: (new Date(timeLeft)).getMinutes()
+    }) 
+  } 
+  catch (error) {
+    res.status(400).send({error: error.message})
+  }
+})
+
 //Server
 app.listen(port, () => console.log(`Server pokrenut na portu ${port}`));
 //
