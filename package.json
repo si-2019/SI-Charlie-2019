@@ -37,5 +37,8 @@
   "bugs": {
     "url": "https://github.com/si-2019/SI-Charlie-2019/issues"
   },
+  "engines": {
+    "node": "11.6"
+  },
   "homepage": "https://github.com/si-2019/SI-Charlie-2019#readme"
 }
