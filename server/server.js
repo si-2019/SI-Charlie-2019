@@ -6,8 +6,8 @@ const port = process.env.PORT || 31903;
 
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
-const swaggerDocument = YAML.load('./server/swagger.yaml');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const swaggerDocument = YAML.load("./server/swagger.yaml");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(bodyParser.json());
 app.use(
@@ -15,8 +15,8 @@ app.use(
     extended: true
   })
 );
-const Sequelize = require('sequelize');
-const db = require('./db.js')
+const Sequelize = require("sequelize");
+const db = require("./db.js");
 const Op = Sequelize.Op;
 db.sequelize.sync();
 //
@@ -30,11 +30,16 @@ app.use("/*", (req, res, next) => {
 
 //#region get zahtjev za broj odabranog tipa ispita odabranog predmeta
 app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
-  db.Predmet.find({attributes: ['id', 'naziv'], where: {naziv: req.params.nazivPredmeta}}).then(function(rez){
-    db.Ispit.findAndCountAll({where: {idPredmet: rez.id, tipIspita: req.params.tipIspita}}).then(function(count){
+  db.Predmet.find({
+    attributes: ["id", "naziv"],
+    where: { naziv: req.params.nazivPredmeta }
+  }).then(function(rez) {
+    db.Ispit.findAndCountAll({
+      where: { idPredmet: rez.id, tipIspita: req.params.tipIspita }
+    }).then(function(count) {
       res.status(200);
       res.json(count);
-    })
+    });
   });
 });
 //#endregion
@@ -50,6 +55,10 @@ app.get("/api/predmeti", (req, res) => {
   res.json(predmeti);
 });
 //#endregion
+
+app.get("/jenkins-test", (req, res) => {
+  res.send("Jenkins works!");
+});
 
 //#region get zahtjev za broj predmeta
 app.get("/dobavistudente/brojStudenata/:naziv", (req, res) => {
@@ -73,9 +82,7 @@ app.get("/ispit/:ispitID", async (req, res) => {
   try {
     const ispiti = await db.Ispit.findOne({ where: { idIspit: ispitID } });
     if (ispiti == null)
-      return res
-        .status(404)
-        .send({ error: "Ispit sa tim ID-em ne postoji!" });
+      return res.status(404).send({ error: "Ispit sa tim ID-em ne postoji!" });
     res.send(JSON.stringify(ispiti));
   } catch (error) {
     res.status(400).send({ error: error.message });
@@ -85,21 +92,23 @@ app.get("/ispit/:ispitID", async (req, res) => {
 
 // vraća sve kreirane ispite za određenog profesora, ali koji još nisu prošli
 app.get("/kreiraniIspiti/:profesorID", async (req, res) => {
-  const { profesorID } = req.params; 
+  const { profesorID } = req.params;
   var trenutni = new Date();
   try {
-    const ispiti = await db.Ispit.findAll({where: 
-      {idProfesor: profesorID,
-       termin: {
+    const ispiti = await db.Ispit.findAll({
+      where: {
+        idProfesor: profesorID,
+        termin: {
           $gte: trenutni
-        }}});
-        if (ispiti == null)
-        return res
-            .status(404)
-            .send({ error: "Profesor sa tim ID-om ne postoji!" });
-      res.send(JSON.stringify(ispiti));
-  }
-  catch (error) {
+        }
+      }
+    });
+    if (ispiti == null)
+      return res
+        .status(404)
+        .send({ error: "Profesor sa tim ID-om ne postoji!" });
+    res.send(JSON.stringify(ispiti));
+  } catch (error) {
     res.status(400).send({ error: error.message });
   }
 });
@@ -130,40 +139,39 @@ app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
 });
 //#endregion
 
-
 app.post("/ispit", (req, res) => {
   var tijelo = req.body;
-  var idProfesora = tijelo['idProfesor'];
-  var idPredmeta = tijelo['idPredmet'];
-  var brojStudenata = tijelo['brojStudenata'];
-  var tipIspita = tijelo['tipIspita'];
-  var rokPrijave = tijelo['rokPrijave'];
-  var sala = tijelo['sala'];
-  var termin = tijelo['termin'];
-  var vrijemeTrajanja = tijelo['vrijemeTrajanja'];
-  var kapacitet = tijelo['kapacitet'];
-  var napomena = tijelo['napomena'];
+  var idProfesora = tijelo["idProfesor"];
+  var idPredmeta = tijelo["idPredmet"];
+  var brojStudenata = tijelo["brojStudenata"];
+  var tipIspita = tijelo["tipIspita"];
+  var rokPrijave = tijelo["rokPrijave"];
+  var sala = tijelo["sala"];
+  var termin = tijelo["termin"];
+  var vrijemeTrajanja = tijelo["vrijemeTrajanja"];
+  var kapacitet = tijelo["kapacitet"];
+  var napomena = tijelo["napomena"];
   db.Ispit.insertOrUpdate({
-    idProfesor:idProfesora,
-    idPredmet:idPredmeta,
-    brojStudenata:brojStudenata,
-    tipIspita:tipIspita,
-    rokPrijave:rokPrijave,
-    sala:sala,
-    termin:termin,
-    vrijemeTrajanja:vrijemeTrajanja,
-    kapacitet:kapacitet,
-    napomena:napomena
-  }).then(function(zapis){
-    if(zapis) res.send("Uspjesno unesen ispit!")
-  }).catch(() => {
-    res.status(409);
-    res.send("Ispit nije uspjesno spasen");
+    idProfesor: idProfesora,
+    idPredmet: idPredmeta,
+    brojStudenata: brojStudenata,
+    tipIspita: tipIspita,
+    rokPrijave: rokPrijave,
+    sala: sala,
+    termin: termin,
+    vrijemeTrajanja: vrijemeTrajanja,
+    kapacitet: kapacitet,
+    napomena: napomena
   })
-
-})
+    .then(function(zapis) {
+      if (zapis) res.send("Uspjesno unesen ispit!");
+    })
+    .catch(() => {
+      res.status(409);
+      res.send("Ispit nije uspjesno spasen");
+    });
+});
 //#endregion
-
 
 app.patch("/ispit/:ispitID", async (req, res) => {
   const { ispitID } = req.params;
@@ -177,7 +185,7 @@ app.patch("/ispit/:ispitID", async (req, res) => {
     kapacitet,
     napomena
   } = req.body;
-  
+
   try {
     let ispiti = await db.Ispit.find({ where: { idIspit: ispitID } });
     if (ispiti == null)
@@ -185,20 +193,20 @@ app.patch("/ispit/:ispitID", async (req, res) => {
         .status(404)
         .send({ error: "Student sa tim ID-om ne postoji!" });
 
-      ispiti = {
-        ...ispiti,
-        brojStudenata,
-        tipIspita,
-        rokPrijave,
-        sala,
-        termin,
-        vrijemeTrajanja,
-        kapacitet,
-        napomena
-      };
-  
-      await db.Ispit.update(ispiti, { where: { idIspit: ispitID } });
-      res.send({success:"Uspjesan update!"});
+    ispiti = {
+      ...ispiti,
+      brojStudenata,
+      tipIspita,
+      rokPrijave,
+      sala,
+      termin,
+      vrijemeTrajanja,
+      kapacitet,
+      napomena
+    };
+
+    await db.Ispit.update(ispiti, { where: { idIspit: ispitID } });
+    res.send({ success: "Uspjesan update!" });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -213,8 +221,6 @@ app.get("/dobaviIspite", async (req, res) => {
   }
 });
 
-
-
 //dobavljanje ispita na koje se student moze prijaviti
 
 app.get("/otvoreniIspiti/:studentID", async (req, res) => {
@@ -225,7 +231,6 @@ app.get("/otvoreniIspiti/:studentID", async (req, res) => {
     res.status(400).send({ error: error.message });
   }
 });
-
 
 // dobavljanje aktuelnih prijava
 //app.get("/otvoreniIspiti/:studentID", async (req, res) => {
