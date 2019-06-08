@@ -113,6 +113,29 @@ app.get("/kreiraniIspiti/:profesorID", async (req, res) => {
   }
 });
 
+// vraća sve kreirane ispite za određeni predmet
+app.get("/kreiraniIspiti/predmet/:predmetID", async (req, res) => {
+  const { predmetID } = req.params;
+  var trenutni = new Date();
+  try {
+    const ispiti = await db.Ispit.findAll({
+      where: {
+        idPredmet: predmetID,
+        termin: {
+          $lte: trenutni
+        }
+      }
+    });
+    if (ispiti == null)
+      return res
+        .status(404)
+        .send({ error: "Predmet sa tim ID-om ne postoji!" });
+    res.send(JSON.stringify(ispiti));
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
 // kreiranje ispita je vec napravljeno
 /*app.post('/ispit', (req, res) => {
   let v=req.body.ok;
