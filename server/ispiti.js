@@ -106,15 +106,15 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
       .then(function(zapis) {
         if (zapis) res.send("Uspjesno unesen ispit!");
       })
-      .catch(() => {
+      .catch((err) => {
         res.status(409);
-        res.send("Ispit nije uspjesno spasen");
+        res.send("Ispit nije uspjesno spasen\n" + err);
       });
   });
   //#endregion
   
   //#region patch
-  app.patch("/ispit/:ispitID", async (req, res) => {
+  app.patch("/ispit/:ispitID", async (req, res, next) => {
     const { ispitID } = req.params;
     const {
       brojStudenata,
@@ -131,8 +131,8 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
         if (rez == null)
         return res.status(404).send({ error: "Ne postoji student sa tim id-em!" });
         
-        ispiti = {
-          ...ispiti,
+        let ispiti = {
+          // ...ispiti,
           brojStudenata,
           tipIspita,
           rokPrijave,

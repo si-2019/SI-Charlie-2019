@@ -60,34 +60,36 @@ async  function getKreiraniIspitiByProfesorId (profesorID) {
   }
 
   async function postIspit (tijelo) {
-    var idProfesora = tijelo["idProfesor"];
-    var idPredmeta = tijelo["idPredmet"];
-    var brojStudenata = tijelo["brojStudenata"];
-    var tipIspita = tijelo["tipIspita"];
-    var rokPrijave = tijelo["rokPrijave"];
-    var sala = tijelo["sala"];
-    var termin = tijelo["termin"];
-    var vrijemeTrajanja = tijelo["vrijemeTrajanja"];
-    var kapacitet = tijelo["kapacitet"];
-    var napomena = tijelo["napomena"];
-    db.Ispit.insertOrUpdate({
-      idProfesor: idProfesora,
-      idPredmet: idPredmeta,
-      brojStudenata: brojStudenata,
-      tipIspita: tipIspita,
-      rokPrijave: rokPrijave,
-      sala: sala,
-      termin: termin,
-      vrijemeTrajanja: vrijemeTrajanja,
-      kapacitet: kapacitet,
-      napomena: napomena
-    })
-      .then(function(zapis) {
-        if (zapis) resolve("Uspjesno unesen ispit!");
+    return new Promise((resolve, reject) => {
+      var idProfesora = tijelo["idProfesor"];
+      var idPredmeta = tijelo["idPredmet"];
+      var brojStudenata = tijelo["brojStudenata"];
+      var tipIspita = tijelo["tipIspita"];
+      var rokPrijave = tijelo["rokPrijave"];
+      var sala = tijelo["sala"];
+      var termin = tijelo["termin"];
+      var vrijemeTrajanja = tijelo["vrijemeTrajanja"];
+      var kapacitet = tijelo["kapacitet"];
+      var napomena = tijelo["napomena"];
+      db.Ispit.insertOrUpdate({
+        idProfesor: idProfesora,
+        idPredmet: idPredmeta,
+        brojStudenata: brojStudenata,
+        tipIspita: tipIspita,
+        rokPrijave: rokPrijave,
+        sala: sala,
+        termin: termin,
+        vrijemeTrajanja: vrijemeTrajanja,
+        kapacitet: kapacitet,
+        napomena: napomena
       })
-      .catch(() => {
-        reject("Ispit nije uspjesno spasen");
-      });
+        .then(function(zapis) {
+          if (zapis) resolve("Uspjesno unesen ispit!");
+        })
+        .catch(() => {
+          reject("Ispit nije uspjesno spasen");
+        });
+    })
   }
 
   return Object.create({

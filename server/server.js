@@ -1,6 +1,7 @@
 'use strict'
 const express = require('express')
 const ispitiAPI = require('./ispiti')
+const bodyParser = require("body-parser");
 
 const start = (options) => {
   return new Promise((resolve, reject) => {
@@ -17,6 +18,13 @@ const start = (options) => {
       reject(new Error('Doslo je do greske!, greska:' + err))
       res.status(500).send('Doslo je do greske!')
     })
+
+    app.use(bodyParser.json());
+    app.use(
+      bodyParser.urlencoded({
+        extended: true
+      })
+    );
     
     //Dodavanje api-ja
     ispitiAPI(app, options)
