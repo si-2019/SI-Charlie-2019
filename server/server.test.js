@@ -5,7 +5,7 @@ chaiHttp = require("chai-http");
 chai.use(chaiHttp);
 //
 
-const app = require("./server.js");
+const app = require("./index.js");
 
 describe("pokreni server", () => {
   it("dobavlja predmete", done => {
