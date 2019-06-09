@@ -106,7 +106,10 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res, next) => {
       .then(function(zapis) {
         if (zapis) res.send("Uspjesno unesen ispit!");
       })
-      .catch(next);
+      .catch((err) => {
+        res.status(409);
+        res.send("Ispit nije uspjesno spasen\n" + err);
+      });
   });
   //#endregion
   
@@ -128,8 +131,8 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res, next) => {
         if (rez == null)
         return res.status(404).send({ error: "Ne postoji student sa tim id-em!" });
         
-        ispiti = {
-          ...ispiti,
+        let ispiti = {
+          // ...ispiti,
           brojStudenata,
           tipIspita,
           rokPrijave,
