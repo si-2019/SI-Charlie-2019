@@ -4,7 +4,7 @@ module.exports = (app, options) => {
   const {repo} = options
   
   //#region get zahtjev za broj ispita (odredjenog tipa) odabranog predmeta
-app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
+app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res, next) => {
     repo.getPredmetByName(req.params.nazivPredmeta).then(function(rez) { 
       // - treba nam od druge grupe
       repo.findAndCountAllPredmetiByIdAndType(rez.id, req.params.tipIspita).then(function(count) {
@@ -16,7 +16,7 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
   //#endregion
   
   //#region get zahtjev za predmete - druga grupa
-  app.get("/api/predmeti", (req, res) => {
+  app.get("/api/predmeti", (req, res, next) => {
     const predmeti = [
       { naziv: "Softverski inženjering", br_studenata: 150 },
       { naziv: "Logički dizajn", br_studenata: 165 },
@@ -32,7 +32,7 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
   });
   
   //#region get zahtjev za broj studenata na predmetu - druga grupa
-  app.get("/dobavistudente/brojStudenata/:naziv", (req, res) => {
+  app.get("/dobavistudente/brojStudenata/:naziv", (req, res, next) => {
     const predmeti = [
       { naziv: "Softverski inženjering", br_studenata: 150 },
       { naziv: "Logički dizajn", br_studenata: 165 },
@@ -48,7 +48,7 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
   //#endregion
   
   //#region get zahtjev za jedan ispit
-  app.get("/ispit/:ispitID", async (req, res) => {
+  app.get("/ispit/:ispitID", async (req, res, next) => {
     const { ispitID } = req.params;
     
       repo.getIspitiById(ispitID).then(function(rez) {
@@ -61,11 +61,11 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
   //#endregion
   
   //#region vraća sve kreirane ispite za određenog profesora, ali koji još nisu prošli
-  app.get("/kreiraniIspiti/:profesorID", async (req, res) => {
+  app.get("/kreiraniIspiti/:profesorID", async (req, res, next) => {
     const { profesorID } = req.params;
     var trenutni = new Date();
     
-      repo.getIspitiProfesora(profesorID).then(function(rez) {
+      repo.getIspitiProfesora(profesorID, trenutni).then(function(rez) {
         if (rez == null)
         return res.status(404).send({ error: "Profesor sa tim ID-em ne postoji!" });
         res.status(200);
@@ -75,10 +75,10 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
 //#endregion
 
   //#region vraća sve kreirane ispite za određeni predmet
-  app.get("/kreiraniIspiti/predmet/:predmetID", async (req, res) => {
+  app.get("/kreiraniIspiti/predmet/:predmetID", async (req, res, next) => {
     const { predmetID } = req.params;
     var trenutni = new Date();
-    repo.getKreiraniIspitiByPredmetId(predmetID).then(function(rez) {
+    repo.getKreiraniIspitiByPredmetId(predmetID, trenutni).then(function(rez) {
         if (rez == null)
         return res.status(404).send({ error: "Predmet sa tim ID-em ne postoji!" });
         res.status(200);
@@ -88,7 +88,7 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
   //#endregion
   
   //#region dobavljanje prijavljenih ispita odredjenog studenta
-  app.get("/prijavljeniIspiti/:studentID", async (req, res) => {
+  app.get("/prijavljeniIspiti/:studentID", async (req, res, next) => {
     const { studentID } = req.params;
     repo.getPrijavljeniIspitiByStudentId(studentID).then(function(rez) {
       if (rez == null)
@@ -100,7 +100,7 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
   //#endregion
 
   //#region upis ispita 
-  app.post("/ispit", (req, res) => {
+  app.post("/ispit", (req, res, next) => {
     var tijelo = req.body;
     repo.postIspit(tijelo)
       .then(function(zapis) {
@@ -150,19 +150,19 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res) => {
   //#endregion
   
   //#region get sve ispite
-  app.get("/ispiti", async (req, res) => {
+  app.get("/ispiti", async (req, res, next) => {
     repo.getIspiti().then(function(rez) {
         if (rez == null)
           return res.status(404).send({ error: "Nema kreiranih ispita!" });
         res.status(200);
         res.send(JSON.stringify(rez)); 
-    })
+    }).catch(next);
     
   });
   //#endregion
 
   //#region dobavljanje ispita na koje se student moze prijaviti
-  app.get("/otvoreniIspiti/:studentID", async (req, res) => {
+  app.get("/otvoreniIspiti/:studentID", async (req, res, next) => {
     repo.getIspitiZaPrijavu(req.params.studentID).then(function(rez) {
       if (rez == null)
         return res.status(404).send({ error: "Ne postoji student sa tim id-em!" });
