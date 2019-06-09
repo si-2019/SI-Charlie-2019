@@ -65,7 +65,7 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res, next) => {
     const { profesorID } = req.params;
     var trenutni = new Date();
     
-      repo.getIspitiProfesora(profesorID, trenutni).then(function(rez) {
+      repo.getKreiraniIspitiByProfesorId(profesorID, trenutni).then(function(rez) {
         if (rez == null)
         return res.status(404).send({ error: "Profesor sa tim ID-em ne postoji!" });
         res.status(200);
