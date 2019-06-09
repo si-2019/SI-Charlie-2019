@@ -21,7 +21,7 @@ const repository = (db) => {
                   })
 }
 
-async  function getKreiraniIspitiByProfesorId (profesorID) {
+async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
       return db.Ispit.findAll({
                   where: {
                   idProfesor: profesorID,
@@ -48,7 +48,7 @@ async  function getKreiraniIspitiByProfesorId (profesorID) {
       return db.Ispit.findAll();
   }
 
-  async function getKreiraniIspitiByPredmetId (predmetID)  {
+  async function getKreiraniIspitiByPredmetId (predmetID, trenutni)  {
       return  db.Ispit.findAll({
           where: {
             idPredmet: predmetID,
