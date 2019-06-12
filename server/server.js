@@ -2,6 +2,8 @@
 const express = require('express')
 const ispitiAPI = require('./ispiti')
 const bodyParser = require("body-parser");
+const cors = require('cors')
+
 
 const start = (options) => {
   return new Promise((resolve, reject) => {
@@ -25,6 +27,7 @@ const start = (options) => {
         extended: true
       })
     );
+    app.use(cors())
     
     //Dodavanje api-ja
     ispitiAPI(app, options)
