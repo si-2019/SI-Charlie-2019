@@ -27,10 +27,6 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res, next) => {
   });
   //#endregion
   
-  app.get("/jenkins-test", (req, res) => {
-    res.send("Jenkins works!");
-  });
-  
   //#region get zahtjev za broj studenata na predmetu - druga grupa
   app.get("/dobavistudente/brojStudenata/:naziv", (req, res, next) => {
     const predmeti = [
