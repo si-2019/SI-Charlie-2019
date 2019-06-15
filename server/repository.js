@@ -16,10 +16,8 @@ const repository = (db) => {
     return db.Ispit.findAndCountAll(
                   {
                     where: { idPredmet: id, tipIspita: tipIspita }
-                  }).then(function(count) {
-                    resolve(count);
-                  })
-}
+                  }) ;
+  }
 
 async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
       return db.Ispit.findAll({

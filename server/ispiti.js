@@ -4,19 +4,16 @@ module.exports = (app, options) => {
   const {repo} = options
   
   //#region get zahtjev za broj ispita (odredjenog tipa) odabranog predmeta
-app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res, next) => {
-    repo.getPredmetByName(req.params.nazivPredmeta).then(function(rez) { 
-      // - treba nam od druge grupe
-      repo.findAndCountAllPredmetiByIdAndType(rez.id, req.params.tipIspita).then(function(count) {
+app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
+      repo.findAndCountAllPredmetiByIdAndType(req.params.idPredmeta, req.params.tipIspita).then(function(count) {
         res.status(200);
         res.json(count);
-      })
-    }).catch(next);
-  });
+      }).catch(next);
+    });
   //#endregion
   
   //#region get zahtjev za predmete - druga grupa
-  app.get("/api/predmeti", (req, res, next) => {
+ /* app.get("/api/predmeti", (req, res, next) => {
     const predmeti = [
       { naziv: "Softverski inženjering", br_studenata: 150 },
       { naziv: "Logički dizajn", br_studenata: 165 },
@@ -26,7 +23,7 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res, next) => {
     res.json(predmeti);
   });
   //#endregion
-  
+  */
   app.get("/jenkins-test", (req, res) => {
     res.send("Jenkins works!");
   });
