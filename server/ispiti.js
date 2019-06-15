@@ -171,9 +171,22 @@ app.get("/predmet/:nazivPredmeta/:tipIspita", (req, res, next) => {
   }).catch(next);    
   });
   //#endregion
+
+  //#region za prijavu ispita
+  app.post("/prijava/:ispitID/:studentID", async (req, res, next) => {
+    repo.prijaviIspit(req.params.ispitID, req.params.studentID).then(function(rez) {
+        if (rez) res.send("Uspjesno prijavljen ispit!");
+    }).catch(next);
+  });
+  //#endregion
   
- 
-  
+  //#region za odjavu sa ispita
+  app.delete("/prijava/:ispitID/:studentID", async (req, res, next) => {
+    repo.odjaviIspit(req.params.ispitID, req.params.studentID).then(function(rez) {
+        if (rez) res.send("Uspjesno odjavljen ispit!");
+    }).catch(next);
+  });
+  //#endregion
 
   
 }

@@ -11,9 +11,9 @@ db.Ispit = sequelize.import("../models/Ispit.js");
 db.Predmet = sequelize.import("../models/Predmet.js");
 db.Student = sequelize.import("../models/Korisnik.js");
 
-db.IspitiRezultati = sequelize.import("../models/ispiti_rezultati.js")
-db.Student.belongsToMany(db.Ispit, {through: 'IspitiRezultati'});
-db.Ispit.belongsToMany(db.Student, {through: 'IspitiRezultati'});
+db.IspitBodovi = sequelize.import("../models/ispiti_rezultati.js")
+db.Student.belongsToMany(db.Ispit, {through: 'IspitBodovi'});
+db.Ispit.belongsToMany(db.Student, {through: 'IspitBodovi'});
 
 
 
