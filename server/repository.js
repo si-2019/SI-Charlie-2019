@@ -44,13 +44,13 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
 
   async function getPrijavljeniIspitiByIspitId (ispitID){
     return new Promise((resolve, reject) => {
-      db.IspitBodovi.find({
-        subquery:false,
+      db.IspitBodovi.findAll({
         idIspita: ispitID
       })
       .then(function(rez){
         if(rez) resolve(rez);
-      }).catch(() => {
+      }).catch((err) => {
+        console.log(err)
         reject("Nema studenata na tom ispitu!");
       });
     })
@@ -59,6 +59,12 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
 
   async function getIspitiZaPrijavu (studentID) {
       return db.Ispit.findAll();
+  }
+
+  async function deleteIspit(ispitID){
+    return db.Ispit.destory({  
+              where: { idIspit : ispitID }
+            })
   }
 
   async function getKreiraniIspitiByPredmetId (predmetID, trenutni)  {
@@ -142,7 +148,8 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
     updateIspit,
     postIspit,
     prijaviIspit,
-    odjaviIspit
+    odjaviIspit,
+    deleteIspit
   })
 }
 
