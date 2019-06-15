@@ -47,7 +47,7 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
   }
 
   async function deleteIspit(ispitID){
-    return db.Ispit.destory({  
+    return db.Ispit.destroy({  
               where: { idIspit : ispitID }
             })
   }
