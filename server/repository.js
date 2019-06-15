@@ -37,11 +37,7 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
   }
 
   async function getPrijavljeniIspitiByStudentId (studentID) {
-      return db.IspitBodovi.findAll({
-            where: { 
-              idKorisnika: studentID
-            }
-          })
+      return db.sequelize.query("SELECT id, idIspita, idKorisnika, bodovi FROM IspitBodovi WHERE idKorisnika = " + studentID, { type: db.sequelize.QueryTypes.SELECT}) 
   } 
 
   async function getIspitiZaPrijavu (studentID) {
