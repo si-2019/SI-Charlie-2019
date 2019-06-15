@@ -43,9 +43,18 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
   } 
 
   async function getPrijavljeniIspitiByIspitId (ispitID){
-    return db.IspitiRezultati.find({
-      idIspita: ispitID
+    return new Promise((resolve, reject) => {
+      db.IspitBodovi.find({
+        subquery:false,
+        idIspita: ispitID
+      })
+      .then(function(rez){
+        if(rez) resolve(rez);
+      }).catch(() => {
+        reject("Nema studenata na tom ispitu!");
+      });
     })
+    
   }
 
   async function getIspitiZaPrijavu (studentID) {
