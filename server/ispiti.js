@@ -113,8 +113,8 @@ app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
   
   //#region delete ispit 
   app.delete("/ispit/:ispitID", (req, res, next) => {
-    const { studentID } = req.params;
-    repo.deleteIspit(studentID)
+    const { ispitID } = req.params;
+    repo.deleteIspit(ispitID)
       .then(function(zapis) {
         if (zapis) res.send("Uspjesno obrisan ispit!");
       })
