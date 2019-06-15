@@ -6,7 +6,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+      default: 0
     },
     idIspita: {
       type: DataTypes.INTEGER(11),
@@ -26,9 +27,10 @@ module.exports = function(sequelize, DataTypes) {
     },
     bodovi: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     }
   }, {
-    tableName: 'IspitBodovi'
+    tableName: 'IspitBodovi',
+    timestamps: false
   });
 };
