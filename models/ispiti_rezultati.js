@@ -26,9 +26,10 @@ module.exports = function(sequelize, DataTypes) {
     },
     bodovi: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: true
     }
   }, {
-    tableName: 'IspitBodovi'
+    tableName: 'IspitBodovi',
+    timestamps: false
   });
 };
