@@ -42,6 +42,12 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
           })
   } 
 
+  async function getPrijavljeniIspitiByIspitId (ispitID){
+    return db.IspitiRezultati.find({
+      idIspita: ispitID
+    })
+  }
+
   async function getIspitiZaPrijavu (studentID) {
       return db.Ispit.findAll();
   }
@@ -97,6 +103,7 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
     getKreiraniIspitiByPredmetId,
     getKreiraniIspitiByProfesorId,
     getPrijavljeniIspitiByStudentId,
+    getPrijavljeniIspitiByIspitId,
     findAndCountAllPredmetiByIdAndType,
     updateIspit,
     postIspit

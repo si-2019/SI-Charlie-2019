@@ -96,6 +96,19 @@ app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
 });
   //#endregion
 
+  //#region dobavljanje prijavljenih studenata za odredjeni ispit
+  app.get("/prijavljeniStudenti/:ispitID", async (req, res, next) => {
+    const { ispitID } = req.params;
+    repo.getPrijavljeniIspitiByIspitId(ispitID).then(function(rez) {
+      console.log(rez);
+      if (rez == null)
+      return res.status(404).send({ error: "Ne postoji ispit sa tim id-em!" });
+      res.status(200);
+      res.send(JSON.stringify(rez)); 
+  }).catch(next);
+});
+  //#endregion
+
   //#region upis ispita 
   app.post("/ispit", (req, res, next) => {
     var tijelo = req.body;
