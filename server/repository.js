@@ -37,8 +37,8 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
   }
 
   async function getPrijavljeniIspitiByStudentId (studentID) {
-      return db.IspitiRezultati.find({
-            korisnikIdKorisnik: studentID
+      return db.IspitBodovi.findAll({
+            idKorisnika: studentID
           })
   } 
 
@@ -90,6 +90,31 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
     })
   }
 
+  async function prijaviIspit (idIspita, idStudenta){
+    return new Promise((resolve, reject) => {
+      db.IspitBodovi.insertOrUpdate({
+        idIspita: idIspita,
+        idKorisnika: idStudenta,
+        bodovi: null
+      }).then(function(rez) {
+        if(rez) resolve("Uspjesno prijavljen ispit");
+      }).catch(() => {
+        reject("Ispit nije uspjesno prijavljen");
+      });
+    })
+  }
+  
+  async function odjaviIspit (idIspita, idStudenta) {
+    return new Promise((resolve, reject) => {
+      db.IspitBodovi.Remove({ where: { idIspita: idIspita, idKorisnika: idStudenta } 
+      }).then(function(rez){
+        if(rez) resolve("Uspjesno odjavljen ispit");
+      }).catch(() => {
+        reject("Ispit nije uspjesno odjavljen");
+      });
+    })
+  }
+
   return Object.create({
     getIspiti,
     getIspitiById,
@@ -99,7 +124,9 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
     getPrijavljeniIspitiByStudentId,
     findAndCountAllPredmetiByIdAndType,
     updateIspit,
-    postIspit
+    postIspit,
+    prijaviIspit,
+    odjaviIspit
   })
 }
 
