@@ -46,6 +46,12 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
       return db.Ispit.findAll();
   }
 
+  async function deleteIspit(ispitID){
+    return db.Ispit.destory({  
+              where: { idIspit : ispitID }
+            })
+  }
+
   async function getKreiraniIspitiByPredmetId (predmetID, trenutni)  {
       return  db.Ispit.findAll({
           where: {
@@ -126,7 +132,8 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
     updateIspit,
     postIspit,
     prijaviIspit,
-    odjaviIspit
+    odjaviIspit,
+    deleteIspit
   })
 }
 

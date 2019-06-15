@@ -5,6 +5,7 @@ module.exports = (app, options) => {
   
   //#region get zahtjev za broj ispita (odredjenog tipa) odabranog predmeta
 app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
+  
       repo.findAndCountAllPredmetiByIdAndType(req.params.idPredmeta, req.params.tipIspita).then(function(count) {
         res.status(200);
         res.json(count);
@@ -24,7 +25,7 @@ app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
   });
   //#endregion
   */
-  app.get("/jenkins-test", (req, res) => {
+   app.get("/jenkins-test", (req, res) => {
     res.send("Jenkins works!");
   });
   
@@ -110,6 +111,20 @@ app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
   });
   //#endregion
   
+  //#region delete ispit 
+  app.delete("/ispit/:ispitID", (req, res, next) => {
+    const { studentID } = req.params;
+    repo.deleteIspit(studentID)
+      .then(function(zapis) {
+        if (zapis) res.send("Uspjesno obrisan ispit!");
+      })
+      .catch((err) => {
+        res.status(409);
+        res.send("Ispit nije uspjesno obrisan\n" + err);
+      });
+  });
+  //#endregion
+
   //#region patch
   app.patch("/ispit/:ispitID", async (req, res, next) => {
     const { ispitID } = req.params;
@@ -168,7 +183,7 @@ app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
   }).catch(next);    
   });
   //#endregion
-
+  
   //#region za prijavu ispita
   app.post("/prijava/:ispitID/:studentID", async (req, res, next) => {
     repo.prijaviIspit(req.params.ispitID, req.params.studentID).then(function(rez) {
@@ -184,6 +199,7 @@ app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
     }).catch(next);
   });
   //#endregion
+  
 
   
 }
