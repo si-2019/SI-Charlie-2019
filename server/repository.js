@@ -38,7 +38,9 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
 
   async function getPrijavljeniIspitiByStudentId (studentID) {
       return db.IspitBodovi.findAll({
-            idKorisnika: studentID
+            where: { 
+              idKorisnika: studentID
+            }
           })
   } 
 
