@@ -114,7 +114,7 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
   
   async function odjaviIspit (idIspita, idStudenta) {
     return new Promise((resolve, reject) => {
-      db.IspitBodovi.Remove({ where: { idIspita: idIspita, idKorisnika: idStudenta } 
+      db.IspitBodovi.destroy({ where: { idIspita: idIspita, idKorisnika: idStudenta } 
       }).then(function(rez){
         if(rez) resolve("Uspjesno odjavljen ispit");
       }).catch(() => {
