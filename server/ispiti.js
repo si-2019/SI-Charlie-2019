@@ -211,6 +211,19 @@ app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
   });
   //#endregion
   
-
-  
+  //#region za dobavljanje vremena do ispita
+  app.get('/vrijemeDoIspita/:ispitID', async (req, res) => {
+    const { ispitID } = req.params
+    try {
+      const exam = await repo.getIspitiById(ispitID)
+      const timeLeft = Date.now() - exam.rokPrijave
+      res.send({
+        hours: (new Date(timeLeft)).getHours(),
+        minutes: (new Date(timeLeft)).getMinutes()
+      }) 
+    } 
+    catch (error) {
+      res.status(400).send({error: error.message})
+    }
+  })
 }
