@@ -5,7 +5,6 @@ module.exports = (app, options) => {
   
   //#region get zahtjev za broj ispita (odredjenog tipa) odabranog predmeta
 app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
-  
       repo.findAndCountAllPredmetiByIdAndType(req.params.idPredmeta, req.params.tipIspita).then(function(count) {
         res.status(200);
         res.json(count);
@@ -101,7 +100,6 @@ app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
   app.get("/prijavljeniStudenti/:ispitID", async (req, res, next) => {
     const { ispitID } = req.params;
     repo.getPrijavljeniIspitiByIspitId(ispitID).then(function(rez) {
-      console.log(rez);
       if (rez == null)
       return res.status(404).send({ error: "Ne postoji ispit sa tim id-em!" });
       res.status(200);
@@ -126,8 +124,8 @@ app.get("/predmet/:idPredmeta/:tipIspita", (req, res, next) => {
   
   //#region delete ispit 
   app.delete("/ispit/:ispitID", (req, res, next) => {
-    const { studentID } = req.params;
-    repo.deleteIspit(studentID)
+    const { ispitID } = req.params;
+    repo.deleteIspit(ispitID)
       .then(function(zapis) {
         if (zapis) res.send("Uspjesno obrisan ispit!");
       })

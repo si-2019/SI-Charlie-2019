@@ -37,24 +37,11 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
   }
 
   async function getPrijavljeniIspitiByStudentId (studentID) {
-      return db.IspitBodovi.findAll({
-            idKorisnika: studentID
-          })
+      return db.sequelize.query("SELECT id, idIspita, idKorisnika, bodovi FROM IspitBodovi WHERE idKorisnika = " + studentID, { type: db.sequelize.QueryTypes.SELECT}) 
   } 
 
   async function getPrijavljeniIspitiByIspitId (ispitID){
-    return new Promise((resolve, reject) => {
-      db.IspitBodovi.findAll({
-        idIspita: ispitID
-      })
-      .then(function(rez){
-        if(rez) resolve(rez);
-      }).catch((err) => {
-        console.log(err)
-        reject("Nema studenata na tom ispitu!");
-      });
-    })
-    
+    return db.sequelize.query("SELECT id, idIspita, idKorisnika, bodovi FROM IspitBodovi WHERE idIspita = " + ispitID, { type: db.sequelize.QueryTypes.SELECT}) 
   }
 
   async function getIspitiZaPrijavu (studentID) {
@@ -62,7 +49,7 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
   }
 
   async function deleteIspit(ispitID){
-    return db.Ispit.destory({  
+    return db.Ispit.destroy({  
               where: { idIspit : ispitID }
             })
   }
