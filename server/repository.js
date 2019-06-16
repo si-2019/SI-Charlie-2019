@@ -40,6 +40,10 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
       return db.sequelize.query("SELECT id, idIspita, idKorisnika, bodovi FROM IspitBodovi WHERE idKorisnika = " + studentID, { type: db.sequelize.QueryTypes.SELECT}) 
   } 
 
+  async function getPrijavljeniIspitiByIspitId (ispitID){
+    return db.sequelize.query("SELECT id, idIspita, idKorisnika, bodovi FROM IspitBodovi WHERE idIspita = " + ispitID, { type: db.sequelize.QueryTypes.SELECT}) 
+  }
+
   async function getIspitiZaPrijavu (studentID) {
       return db.Ispit.findAll();
   }
@@ -126,6 +130,7 @@ async  function getKreiraniIspitiByProfesorId (profesorID, trenutni) {
     getKreiraniIspitiByPredmetId,
     getKreiraniIspitiByProfesorId,
     getPrijavljeniIspitiByStudentId,
+    getPrijavljeniIspitiByIspitId,
     findAndCountAllPredmetiByIdAndType,
     updateIspit,
     postIspit,
