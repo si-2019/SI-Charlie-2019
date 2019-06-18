@@ -1,6 +1,7 @@
 const config = require('./config')
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize("TYQcLL35gV","TYQcLL35gV","BLysSj9ZrP",{ host: "37.59.55.185", dialect: 'mysql'});
+const sequelize = new Sequelize("TYQcLL35gV","TYQcLL35gV","BLysSj9ZrP",{ host: "mysql-3213-0.cloudclusters.net", dialect: 'mysql', port: 10021});
+
 const db={};
 
 db.Sequelize = Sequelize;  

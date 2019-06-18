@@ -2,8 +2,9 @@ const dbSettings = {
   user: 'TYQcLL35gV',
   database: 'TYQcLL35gV',
   pass: 'BLysSj9ZrP',
-  host: '37.59.55.185',
-  dialect: 'mysql'
+  host: "mysql-3213-0.cloudclusters.net",
+  dialect: 'mysql',
+  port: 10021
 };
 
 // server parameters
